@@ -1,2 +1,2 @@
 # powershell-examples
-Untestet powershell examples.
+Untested powershell examples.
