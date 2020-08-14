@@ -1,4 +1,5 @@
 ﻿# Config Basic Auth with HTTP for WinRM (used for Win 2016 Datacenter)
+ # 
 
 #create ansible user
 $AnsibleUser = "Ansible"
