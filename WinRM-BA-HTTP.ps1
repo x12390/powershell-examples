@@ -1,9 +1,29 @@
 ﻿# Config Basic Auth with HTTP for WinRM (used for Win 2016 Datacenter)
 
 #create ansible user
-$AnsibleUser = "Ansible"
-$Password = Read-Host -AsSecureString -Prompt 'Input password for User $AnsibleUser :'
-New-LocalUser $AnsibleUser -Password $Password -FullName "Ansible User" -Description ""
+$USERNAME = "Ansible"
+$Password = Read-Host -AsSecureString -Prompt 'Input password for User $AnsibleUser '
+
+#does user exist
+Try {
+    Write-Verbose "Searching for $($USERNAME) in LocalUser DataBase"
+    $ObjLocalUser = Get-LocalUser $USERNAME
+    Write-Verbose "User $($USERNAME) was found"
+}
+
+Catch [Microsoft.PowerShell.Commands.UserNotFoundException] {
+    "User $($USERNAME) was not found" | Write-Warning
+}
+
+Catch {
+    "An unspecifed error occured" | Write-Error
+    Exit # Stop Powershell! 
+}
+
+#Create the user if it was not found
+If (!$ObjLocalUser) {
+  New-LocalUser $USERNAME -Password $Password -FullName "Ansible User" -Description ""
+}
 
 #add user to administrator group
 Add-LocalGroupMember -Group "Administrators" -Member $AnsibleUser
