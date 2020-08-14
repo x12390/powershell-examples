@@ -2,7 +2,7 @@
 
 #create ansible user
 $AnsibleUser = "Ansible"
-$Password = Read-Host -AsSecureString
+$Password = Read-Host -AsSecureString -Prompt 'Input password for user $AnsibleUser"
 New-LocalUser $AnsibleUser -Password $Password -FullName "Ansible User" -Description ""
 
 #add user to administrator group
