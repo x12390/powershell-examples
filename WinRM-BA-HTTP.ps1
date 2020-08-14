@@ -23,10 +23,9 @@ Catch {
 #Create the user if it was not found
 If (!$ObjLocalUser) {
   New-LocalUser $USERNAME -Password $Password -FullName "Ansible User" -Description ""
+  #add user to administrator group
+  Add-LocalGroupMember -Group "Administrators" -Member $USERNAME
 }
-
-#add user to administrator group
-Add-LocalGroupMember -Group "Administrators" -Member $AnsibleUser
 
 #enable basic auth
 Set-Item -Path WSMan:\localhost\Service\Auth\Basic -Value $true
